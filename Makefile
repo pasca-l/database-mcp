@@ -12,7 +12,7 @@ format:
 
 .PHONY: lint
 lint:
-	docker run -t --rm -v $(MAKEFILE_DIR):/app -w /app/src golangci/golangci-lint:v2.4.0 golangci-lint run
+	docker run -t --rm -v $(MAKEFILE_DIR):/app -w /app/src golangci/golangci-lint:v2.9.0 golangci-lint run
 
 .PHONY: test
 test:

@@ -1,4 +1,6 @@
-FROM golang:1.25-trixie
+# syntax=docker/dockerfile:1
+
+FROM golang:1.26-trixie
 
 ENV HOME=/home/local/
 WORKDIR /home/local/app/
