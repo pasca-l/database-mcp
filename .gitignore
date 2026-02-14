@@ -1,2 +1,2 @@
 # ignore built binaries
-database-mcp
+bin/

@@ -3,7 +3,7 @@ go = "1.26"
 
 [tasks.build]
 description = "Build the database-mcp binary"
-run = "go build -o database-mcp"
+run = "go build -o bin/database-mcp"
 
 [tasks.format]
 description = "Format the code"
