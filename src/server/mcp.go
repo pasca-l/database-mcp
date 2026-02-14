@@ -1,0 +1,28 @@
+package server
+
+import (
+	"github.com/modelcontextprotocol/go-sdk/mcp"
+	"github.com/pasca-l/database-mcp/db"
+	"github.com/pasca-l/database-mcp/tools"
+)
+
+func NewDatabaseMCPServer() *mcp.Server {
+	server := mcp.NewServer(
+		&mcp.Implementation{
+			Name:    "database-mcp",
+			Version: "v0.1.0",
+		},
+		nil,
+	)
+
+	conn := db.NewConnection()
+	connectTool := tools.NewConnectTool(conn)
+	readQueryTool := tools.NewReadQueryTool(conn)
+	writeQueryTool := tools.NewWriteQueryTool(conn)
+
+	mcp.AddTool(server, connectTool.Tool, connectTool.Handler)
+	mcp.AddTool(server, readQueryTool.Tool, readQueryTool.Handler)
+	mcp.AddTool(server, writeQueryTool.Tool, writeQueryTool.Handler)
+
+	return server
+}

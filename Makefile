@@ -1,10 +1,13 @@
 MAKEFILE_DIR := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
 APP_SERVICE := app
 
-.PHONY: start
-start:
-	docker compose up --build -d
-	docker compose exec $(APP_SERVICE) sh -c "go run main.go"
+.PHONY: build
+build:
+	cd $(MAKEFILE_DIR)/src && go build -o $(MAKEFILE_DIR)/database-mcp
+
+.PHONY: build-docker
+build-docker:
+	docker compose run --rm -v $(MAKEFILE_DIR):/out $(APP_SERVICE) sh -c "go build -o /out/database-mcp"
 
 .PHONY: format
 format:
