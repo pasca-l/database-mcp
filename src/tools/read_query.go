@@ -32,10 +32,8 @@ func NewReadQueryTool(conn *db.Connection) *McpTool[ReadQueryInput, ReadQueryOut
 
 func buildReadQueryToolHandler(conn *db.Connection) func(ctx context.Context, req *mcp.CallToolRequest, input ReadQueryInput) (*mcp.CallToolResult, ReadQueryOutput, error) {
 	return func(ctx context.Context, req *mcp.CallToolRequest, input ReadQueryInput) (*mcp.CallToolResult, ReadQueryOutput, error) {
-		// validate if query is a SELECT query
-		trimmed := strings.TrimSpace(strings.ToUpper(input.Query))
-		if !strings.HasPrefix(trimmed, "SELECT") {
-			return nil, ReadQueryOutput{}, fmt.Errorf("%w, got: %s", ErrNotSelectQuery, input.Query)
+		if err := utils.ValidateReadQuery(input.Query); err != nil {
+			return nil, ReadQueryOutput{}, err
 		}
 
 		columns, rows, err := conn.ReadQuery(ctx, input.Query, input.Args)
