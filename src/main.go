@@ -9,10 +9,14 @@ import (
 
 func main() {
 	s := server.NewDatabaseMCPServer()
-	t := server.NewTransport()
+	defer func() {
+		if err := s.Close(); err != nil {
+			log.Printf("error closing database connection: %v", err)
+		}
+	}()
 
-	err := s.Run(context.Background(), t)
-	if err != nil {
-		log.Fatal(err)
+	if err := s.Run(context.Background(), server.NewTransport()); err != nil {
+		log.Printf("error running server: %v", err)
+		return
 	}
 }

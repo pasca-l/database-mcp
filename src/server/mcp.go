@@ -6,7 +6,12 @@ import (
 	"github.com/pasca-l/database-mcp/tools"
 )
 
-func NewDatabaseMCPServer() *mcp.Server {
+type DatabaseMCPServer struct {
+	*mcp.Server
+	conn *db.Connection
+}
+
+func NewDatabaseMCPServer() *DatabaseMCPServer {
 	server := mcp.NewServer(
 		&mcp.Implementation{
 			Name:    "database-mcp",
@@ -16,6 +21,7 @@ func NewDatabaseMCPServer() *mcp.Server {
 	)
 
 	conn := db.NewConnection()
+
 	connectTool := tools.NewConnectTool(conn)
 	readQueryTool := tools.NewReadQueryTool(conn)
 	writeQueryTool := tools.NewWriteQueryTool(conn)
@@ -24,5 +30,12 @@ func NewDatabaseMCPServer() *mcp.Server {
 	mcp.AddTool(server, readQueryTool.Tool, readQueryTool.Handler)
 	mcp.AddTool(server, writeQueryTool.Tool, writeQueryTool.Handler)
 
-	return server
+	return &DatabaseMCPServer{
+		Server: server,
+		conn:   conn,
+	}
+}
+
+func (s *DatabaseMCPServer) Close() error {
+	return s.conn.Close()
 }
