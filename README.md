@@ -1,5 +1,7 @@
 # Database MCP
 MCP server for database connecting and querying.
+> [!WARNING]
+> Users assume full responsibility for all database operations performed with this tool. Developers of this project are not liable for any data loss, corruption, or unintended modifications.
 
 ## Screenshots
 ![](https://github.com/user-attachments/assets/639d329b-4ce5-4650-89f1-9ce4d6345670)
