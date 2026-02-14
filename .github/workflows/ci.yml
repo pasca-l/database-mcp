@@ -22,7 +22,6 @@ jobs:
             git diff
             exit 1
           fi
-        working-directory: src
 
   lint:
     runs-on: ubuntu-latest
@@ -33,7 +32,6 @@ jobs:
       - uses: golangci/golangci-lint-action@9fae48acfc02a90574d7c304a1758ef9895495fa # v7.0.1
         with:
           version: v2.9.0
-          working-directory: src
 
   test:
     runs-on: ubuntu-latest
@@ -43,4 +41,3 @@ jobs:
       - uses: actions/setup-go@v5
       - run: go env -w GOTOOLCHAIN=go1.25.4+auto
       - run: go test -v -race -cover -covermode=atomic ./...
-        working-directory: src
