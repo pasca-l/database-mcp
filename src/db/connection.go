@@ -16,7 +16,6 @@ var (
 type Connection struct {
 	pool *pgxpool.Pool
 	mu   sync.RWMutex
-	dsn  string
 }
 
 func NewConnection() *Connection {
@@ -42,7 +41,6 @@ func (c *Connection) Connect(ctx context.Context, dsn string) error {
 	}
 
 	c.pool = pool
-	c.dsn = dsn
 
 	return nil
 }
@@ -65,7 +63,6 @@ func (c *Connection) Close() error {
 	if c.pool != nil {
 		c.pool.Close()
 		c.pool = nil
-		c.dsn = ""
 	}
 
 	return nil

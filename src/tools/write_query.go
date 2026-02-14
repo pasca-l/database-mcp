@@ -9,7 +9,8 @@ import (
 )
 
 type WriteQueryInput struct {
-	Query string `json:"query" jsonschema_description:"SQL query to execute (INSERT, UPDATE, DELETE, etc.)"`
+	Query string `json:"query" jsonschema_description:"SQL query to execute (INSERT, UPDATE, DELETE, etc.). Use $1, $2, etc. for parameters to prevent SQL injection."`
+	Args  []any  `json:"args,omitempty" jsonschema_description:"Parameters for the query"`
 }
 
 type WriteQueryOutput struct {
@@ -28,7 +29,7 @@ func NewWriteQueryTool(conn *db.Connection) *McpTool[WriteQueryInput, WriteQuery
 
 func buildWriteQueryToolHandler(conn *db.Connection) func(ctx context.Context, req *mcp.CallToolRequest, input WriteQueryInput) (*mcp.CallToolResult, WriteQueryOutput, error) {
 	return func(ctx context.Context, req *mcp.CallToolRequest, input WriteQueryInput) (*mcp.CallToolResult, WriteQueryOutput, error) {
-		rowsAffected, err := conn.WriteQuery(ctx, input.Query)
+		rowsAffected, err := conn.WriteQuery(ctx, input.Query, input.Args)
 		if err != nil {
 			return nil, WriteQueryOutput{}, fmt.Errorf("error executing query: %w", err)
 		}

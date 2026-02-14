@@ -2,27 +2,22 @@ package tools
 
 import (
 	"context"
-	"errors"
 	"fmt"
-	"strings"
 
 	"github.com/modelcontextprotocol/go-sdk/mcp"
 	"github.com/pasca-l/database-mcp/db"
-)
-
-var (
-	ErrNotSelectQuery = errors.New("read_query only supports SELECT statements")
+	"github.com/pasca-l/database-mcp/utils"
 )
 
 type ReadQueryInput struct {
-	Query   string `json:"query" jsonschema_description:"SQL SELECT query to execute"`
-	MaxRows int    `json:"max_rows" jsonschema_description:"Maximum number of rows to return (default 100)"`
+	Query string `json:"query" jsonschema_description:"SQL SELECT query to execute (use $1, $2, etc. for parameters)"`
+	Args  []any  `json:"args,omitempty" jsonschema_description:"Parameters for the query"`
 }
 
 type ReadQueryOutput struct {
 	Columns  []string `json:"columns" jsonschema_description:"Column names"`
-	Rows     [][]any  `json:"rows" jsonschema_description:"Query result rows"`
-	RowCount int      `json:"row_count" jsonschema_description:"Number of rows returned"`
+	Rows     [][]any  `json:"rows" jsonschema_description:"Query result rows (limited to 100)"`
+	RowCount int      `json:"row_count" jsonschema_description:"Number of rows returned (max 100)"`
 }
 
 func NewReadQueryTool(conn *db.Connection) *McpTool[ReadQueryInput, ReadQueryOutput] {
@@ -43,13 +38,9 @@ func buildReadQueryToolHandler(conn *db.Connection) func(ctx context.Context, re
 			return nil, ReadQueryOutput{}, fmt.Errorf("%w, got: %s", ErrNotSelectQuery, input.Query)
 		}
 
-		columns, rows, err := conn.ReadQuery(ctx, input.Query, input.MaxRows)
+		columns, rows, err := conn.ReadQuery(ctx, input.Query, input.Args)
 		if err != nil {
 			return nil, ReadQueryOutput{}, fmt.Errorf("error executing query: %w", err)
-		}
-
-		if rows == nil {
-			rows = [][]any{}
 		}
 
 		return nil, ReadQueryOutput{
