@@ -4,7 +4,7 @@ import (
 	"context"
 	"log"
 
-	"github.com/pasca-l/database-mcp/server"
+	"github.com/pasca-l/database-mcp/internal/server"
 )
 
 func main() {

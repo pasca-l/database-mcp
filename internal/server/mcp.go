@@ -2,8 +2,8 @@ package server
 
 import (
 	"github.com/modelcontextprotocol/go-sdk/mcp"
-	"github.com/pasca-l/database-mcp/db"
-	"github.com/pasca-l/database-mcp/tools"
+	"github.com/pasca-l/database-mcp/internal/db"
+	"github.com/pasca-l/database-mcp/internal/tools"
 )
 
 type DatabaseMCPServer struct {
