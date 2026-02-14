@@ -5,12 +5,12 @@ MCP server for database connecting and querying.
 ![](https://github.com/user-attachments/assets/639d329b-4ce5-4650-89f1-9ce4d6345670)
 
 ## Requirements
-- Go 1.26
+- mise v2026.2.11
 
 ## Usage
 1. Build the MCP server binary.
 ```bash
-$ make build
+$ mise build
 ```
 
 2. Configure the binary path in the MCP server settings for any LLM service.

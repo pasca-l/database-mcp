@@ -1,0 +1,18 @@
+[tools]
+go = "1.26"
+
+[tasks.build]
+description = "Build the database-mcp binary"
+run = "cd {{config_root}}/src && go build -o {{config_root}}/database-mcp"
+
+[tasks.format]
+description = "Format the code"
+run = "cd {{config_root}}/src && go fmt ./..."
+
+[tasks.lint]
+description = "Run linter on the code"
+run = "docker run -t --rm -v $PWD:/app -w /app/src golangci/golangci-lint:v2.9.0 golangci-lint run"
+
+[tasks.test]
+description = "Run tests"
+run = "cd {{config_root}}/src && go test -v -race -cover -covermode=atomic ./..."
