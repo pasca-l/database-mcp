@@ -2,6 +2,7 @@
 MCP server for database connecting and querying.
 
 ## Screenshots
+![](https://github.com/user-attachments/assets/639d329b-4ce5-4650-89f1-9ce4d6345670)
 
 ## Requirements
 - Go 1.26
