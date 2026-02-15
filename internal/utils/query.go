@@ -13,11 +13,11 @@ var (
 )
 
 var (
-	// pattern to check if query starts with SELECT or WITH (for CTEs)
+	// Pattern to check if query starts with SELECT or WITH (for CTEs).
 	selectOrWithPattern = regexp.MustCompile(`(?i)^(SELECT|WITH)\s`)
-	// pattern to detect any SQL comments (both -- and /* */ style)
+	// Pattern to detect any SQL comments (both -- and /* */ style).
 	commentPattern = regexp.MustCompile(`(?i)(--.*)|(/\*.*?\*/)`)
-	// pattern to detect dangerous SQL patterns
+	// Pattern to detect dangerous SQL patterns.
 	dangerousPatterns = regexp.MustCompile(`(?i)(;\s*(DROP|DELETE|UPDATE|INSERT|ALTER|CREATE|TRUNCATE|EXEC|EXECUTE))|(/\*.*\*/.*?(DROP|DELETE|UPDATE|INSERT|ALTER|CREATE|TRUNCATE))`)
 )
 

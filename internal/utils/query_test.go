@@ -10,7 +10,7 @@ func TestValidateReadQuery(t *testing.T) {
 		query   string
 		wantErr error
 	}{
-		// Valid queries - various SELECT structures
+		// Valid queries - various SELECT structures.
 		{
 			name:    "simple SELECT",
 			query:   "SELECT * FROM users",
@@ -27,7 +27,7 @@ func TestValidateReadQuery(t *testing.T) {
 			wantErr: nil,
 		},
 
-		// Valid queries - WITH (CTE)
+		// Valid queries - WITH (CTE).
 		{
 			name:    "WITH CTE single",
 			query:   "WITH temp AS (SELECT id FROM users) SELECT * FROM temp",
@@ -39,7 +39,7 @@ func TestValidateReadQuery(t *testing.T) {
 			wantErr: nil,
 		},
 
-		// Valid queries - case insensitivity and whitespace handling
+		// Valid queries - case insensitivity and whitespace handling.
 		{
 			name:    "lowercase select",
 			query:   "select * from users",
@@ -61,7 +61,7 @@ func TestValidateReadQuery(t *testing.T) {
 			wantErr: nil,
 		},
 
-		// Invalid - non-SELECT statements
+		// Invalid - non-SELECT statements.
 		{
 			name:    "INSERT",
 			query:   "INSERT INTO users (name) VALUES ('John')",
@@ -78,7 +78,7 @@ func TestValidateReadQuery(t *testing.T) {
 			wantErr: ErrNotSelectQuery,
 		},
 
-		// Invalid - comments (both styles)
+		// Invalid - comments (both styles).
 		{
 			name:    "comment before SELECT",
 			query:   "-- comment\nSELECT * FROM users",
@@ -95,7 +95,7 @@ func TestValidateReadQuery(t *testing.T) {
 			wantErr: ErrCommentNotAllowed,
 		},
 
-		// Invalid - SQL injection attempts (semicolon + dangerous operations)
+		// Invalid - SQL injection attempts (semicolon + dangerous operations).
 		{
 			name:    "injection DROP",
 			query:   "SELECT * FROM users; DROP TABLE users",
@@ -137,7 +137,7 @@ func TestValidateReadQuery(t *testing.T) {
 			wantErr: ErrDangerousQuery,
 		},
 
-		// Invalid - injection with variations
+		// Invalid - injection with variations.
 		{
 			name:    "injection with whitespace",
 			query:   "SELECT * FROM users;   DROP TABLE users",
